@@ -83,6 +83,7 @@ app.get("/posts/:postName", function(req, res){
           res.render("post", {
             title: post.blogTitle,
             content: post.blogContent,
+            id:post._id
           });
         }
       });
@@ -92,6 +93,7 @@ app.get("/posts/:postName", function(req, res){
     }
   });
 });
+//delete post route
 
 //Post request to search by title
 app.post("/search", function(req, res){
@@ -105,6 +107,22 @@ app.post("/search", function(req, res){
     }
   })
 })
+
+app.post('/posts/:postName', (req, res, next) => {
+  const requestedTitle = req.params.postName;
+  console.log(requestedTitle)
+  Blog.deleteOne({blogTitle: requestedTitle}).then(
+    () => {
+      res.redirect("/");
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+});
 
 //Launching the server on port 3000-
 app.listen(3000, function() {
