@@ -94,7 +94,7 @@ app.get("/posts/:postName", function(req, res){
 });
 
 //Post request to search by title
-app.post("/posts/search", function(req, res){
+app.post("/search", function(req, res){
   const query = req.body.query;
   Blog.find({blogTitle: { "$regex": query, "$options": "i" }}, function(err, posts){
     if(!err){
