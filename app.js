@@ -93,6 +93,19 @@ app.get("/posts/:postName", function(req, res){
   });
 });
 
+//Post request to search by title
+app.post("/posts/search", function(req, res){
+  const query = req.body.query;
+  Blog.find({blogTitle: { "$regex": query, "$options": "i" }}, function(err, posts){
+    if(!err){
+      res.render('home', {
+        homeStartingContent: homeStartingContent,
+        posts: posts
+      })
+    }
+  })
+})
+
 //Launching the server on port 3000-
 app.listen(3000, function() {
   console.log("Server started on port 3000");
